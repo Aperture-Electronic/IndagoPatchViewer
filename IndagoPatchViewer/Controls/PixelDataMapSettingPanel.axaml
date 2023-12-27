@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:IndagoPatchViewer.ViewModels;assembly=IndagoPatchViewer"
+             xmlns:m="clr-namespace:IndagoPatchViewer"
+             xmlns:c="using:IndagoPatchViewer.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:PixelDataMapViewModel"
+             x:Class="IndagoPatchViewer.Controls.PixelDataMapSettingPanel">
+    <UserControl.Styles>
+        <Style Selector="Label.FieldBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="1" />
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*">
+        <Label Classes="FieldBlock" Content="Pixel Bit-width" />
+        <Label Grid.Row="0" Grid.Column="1" Content="{Binding PixelBitWidth}" />
+        <Label x:Name="txtWidth" Grid.Row="1" Grid.Column="0" Classes="FieldBlock" Content="Width (px)"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PatchWidth}" Margin="2" VerticalContentAlignment="Center" />
+        <Label Grid.Row="2" Grid.Column="0" Classes="FieldBlock" Content="Height (px)" />
+        <TextBox x:Name="txtHeight" Grid.Row="2" Grid.Column="1" Text="{Binding PatchHeight}" Margin="2" VerticalContentAlignment="Center"/>
+        <Label Grid.Row="3" Grid.Column="0" Classes="FieldBlock" Content="Total Bit-width" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Classes="FieldBlock" Text="{Binding TotalBitWidth}" VerticalAlignment="Center" />
+    </Grid>
+</UserControl>

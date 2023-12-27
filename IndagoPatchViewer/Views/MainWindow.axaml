@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IndagoPatchViewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:IndagoPatchViewer.Controls"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
+        x:Class="IndagoPatchViewer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Indago Patch Viewer"
+        Width="800" Height="480"
+        FontSize="16">
+        <Window.Styles>
+                <Style Selector="Label.TitleBlock">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="1" />
+                </Style>
+        </Window.Styles>
+        <Grid RowDefinitions="100,10,*" Margin="5">
+                <Grid RowDefinitions="*,*,*" ColumnDefinitions="200,*">
+                        <Label Content="Indago Server" Classes="TitleBlock" />
+                        <Label Grid.Row="1" Grid.Column="0" Content="Port" Margin="1" VerticalAlignment="Center" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding IndagoPort}" Margin="1" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Grid.Row="2" Grid.Column="0" Content="Connect" Command="{Binding ConnectIndagoCommand}" Margin="1"
+                                VerticalAlignment="Center" />
+                        <Label Grid.Row="2" Grid.Column="1" Content="Idle." VerticalAlignment="Center" Margin="1"/>
+                </Grid>
+                <Rectangle Grid.Row="1" Stroke="Black" StrokeThickness="1" Margin="5"/>
+                <Grid Grid.Row="2" ColumnDefinitions="340,340,*">
+                        <Grid RowDefinitions="33,*">
+                                <Label Content="Design Hierarchy" Classes="TitleBlock" />
+                                <TreeView Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0.5" Margin="5"
+                                          Items="{Binding ScopesTree}" SelectedItem="{Binding SelectedScope}">
+                                        <TreeView.ItemTemplate>
+                                                <TreeDataTemplate ItemsSource="{Binding SubScopes}">
+                                                        <TextBlock Text="{Binding Name}"></TextBlock>
+                                                </TreeDataTemplate>
+                                        </TreeView.ItemTemplate>
+                                </TreeView>
+                        </Grid>
+                        <Grid Grid.Column="1" RowDefinitions="33,150,33,*">
+                                <Label Content="Signals" Classes="TitleBlock" />
+                                <controls:PixelDataMapSettingPanel Grid.Row="1" DataContext="{Binding PixelDataMap}"/>
+                                <Button Grid.Row="2" Content="Refresh" Command="{Binding RefreshSignalsCommand}" Margin="1"/>
+                                <ListBox Grid.Row="3" BorderBrush="DarkGray" BorderThickness="0.5" Margin="5" 
+                                         Items="{Binding AvailableSignals}" SelectedItem="{Binding SelectedSignal}">
+                                        <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                </ListBox>
+                        </Grid>
+                        <Grid Grid.Column="2" RowDefinitions="33,33,*">
+                                <StackPanel Orientation="Horizontal">
+                                        <Label Content="Monitor" Classes="TitleBlock" />
+                                        <CheckBox Content="Enabled" IsChecked="{Binding IsMonitorEnabled}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <Label Content="Time" Padding="0,0,10,0" VerticalAlignment="Center"/>
+                                        <Label Content="{Binding CurrentTimeString}" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <Grid Grid.Row="2" Background="DarkBlue">
+                                        <Image Source="{Binding CurrentBitmap}" 
+                                               IsVisible="{Binding CurrentBitmap, 
+                                               Converter={x:Static ObjectConverters.IsNotNull}}"
+                                               Margin="20" Stretch="Uniform" 
+                                               RenderOptions.BitmapInterpolationMode="Default"/>
+                                </Grid>
+                        </Grid>
+                </Grid>
+        </Grid>
+</Window>
